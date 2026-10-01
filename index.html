@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Projetos | Contalger</title>
+<style>
+:root{
+  --navy:#0d3557;--navy2:#174b75;--orange:#df5a35;--orange2:#f0784f;
+  --bg:#f3f6f9;--card:#fff;--text:#11263a;--muted:#68798a;--line:#dbe3eb;
+  --danger:#c94450;--success:#1d7a57;--shadow:0 15px 40px rgba(13,53,87,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 100% 0,rgba(223,90,53,.08),transparent 28%),linear-gradient(180deg,#fafbfd,#f1f5f8);color:var(--text);min-height:100vh}
+.container{max-width:1240px;margin:auto;padding:26px 20px 60px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:18px}.brand img{width:255px;max-width:42vw;height:auto;display:block}.hero h1{font-size:29px;color:var(--navy);margin:0}.hero p{color:var(--muted);margin:7px 0 0;font-size:14px}
+.top-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+button,.btn{border:0;border-radius:13px;padding:11px 15px;font-weight:750;font-size:14px;cursor:pointer;text-decoration:none;transition:.18s;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button:hover,.btn:hover{transform:translateY(-1px)}
+.primary{color:#fff;background:linear-gradient(135deg,var(--orange),var(--orange2));box-shadow:0 8px 20px rgba(223,90,53,.20)}
+.secondary{background:#fff;border:1px solid var(--line);color:var(--navy)}
+.github{background:var(--navy);color:#fff}.github.connected{background:var(--success)}
+.toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;margin-bottom:20px}.search{border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px 16px;font-size:15px;outline:none;box-shadow:0 5px 15px rgba(13,53,87,.04)}
+.stats{display:flex;gap:9px;flex-wrap:wrap}.pill{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 14px;color:var(--navy);font-weight:750}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.card{background:linear-gradient(180deg,#fff,#fbfcfd);border:1px solid var(--line);border-radius:21px;padding:20px;box-shadow:var(--shadow);min-height:235px;display:flex;flex-direction:column}
+.badge{display:inline-flex;width:max-content;border-radius:999px;padding:6px 9px;background:rgba(13,53,87,.08);color:var(--navy);font-size:11px;text-transform:uppercase;font-weight:850;letter-spacing:.35px}
+.card h3{font-size:21px;line-height:1.25;margin:14px 0 8px;color:var(--navy)}.card p{font-size:13.5px;color:var(--muted);line-height:1.5;margin:0 0 18px;flex:1}
+.repo-label{font-size:11px;color:#8a99a8;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.open{background:linear-gradient(180deg,#173e63,#102f4e);color:#fff}.edit{background:#f7fafc;color:var(--navy);border:1px solid var(--line)}.delete{background:#fff7f7;color:var(--danger);border:1px solid #f0ccd1}
+.notice{display:none;margin-bottom:18px;padding:13px 15px;border-radius:14px;font-size:13px}.notice.show{display:block}.notice.ok{background:#edf9f4;color:#176747;border:1px solid #c7e8da}.notice.error{background:#fff3f4;color:#9d2e3a;border:1px solid #f0c8cd}.notice.info{background:#eff6fc;color:#174d76;border:1px solid #cadeef}
+.empty{display:none;text-align:center;padding:50px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:20px}
+dialog{width:min(590px,calc(100% - 24px));padding:0;border:0;border-radius:22px;overflow:hidden;box-shadow:0 35px 100px rgba(0,0,0,.30)}dialog::backdrop{background:rgba(8,22,34,.55)}
+.modal-head{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:17px 20px;display:flex;justify-content:space-between;align-items:center}.modal-head strong{font-size:17px}.modal-head button{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.modal-body{padding:20px;display:grid;gap:13px}label{font-size:12px;color:var(--navy);font-weight:750}input,textarea{width:100%;margin-top:7px;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font:inherit;color:var(--text);outline:none;background:#fbfdff}textarea{min-height:80px;resize:vertical}.hint{font-size:12px;color:var(--muted);line-height:1.5;margin:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}
+.spinner{display:none;width:15px;height:15px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin .7s linear infinite}.saving .spinner{display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}
+footer{text-align:center;margin-top:28px;color:#7e8c9b;font-size:12px}
+@media(max-width:900px){.hero{flex-direction:column;align-items:flex-start}.brand{flex-direction:column;align-items:flex-start}.brand img{max-width:80vw}.top-actions{justify-content:flex-start}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.toolbar{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.brand img{width:220px}.hero h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <section class="hero">
+    <div class="brand">
+      <img src="logo-contalger.png" alt="Contalger">
+      <div>
+        <h1>Central de Projetos</h1>
+        <p>Abra, adicione, edite e organize os sistemas da Contalger.</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="connectBtn" class="github" onclick="openTokenModal()">Conectar GitHub</button>
+      <button class="primary" onclick="openProjectModal()">+ Adicionar</button>
+      <button class="secondary" onclick="loadProjects(true)">Atualizar</button>
+    </div>
+  </section>
+
+  <div id="notice" class="notice"></div>
+
+  <section class="toolbar">
+    <input id="search" class="search" placeholder="Buscar por nome, categoria ou repositório..." oninput="render()">
+    <div class="stats">
+      <div class="pill">Projetos: <span id="projectCount">0</span></div>
+      <div class="pill">Categorias: <span id="categoryCount">0</span></div>
+    </div>
+  </section>
+
+  <main id="grid" class="grid"></main>
+  <div id="empty" class="empty">Nenhum projeto encontrado.</div>
+  <footer>Alterações salvas no arquivo <strong>projects.json</strong> do repositório Central-Contalger.</footer>
+</div>
+
+<dialog id="projectModal">
+  <div class="modal-head">
+    <strong id="projectModalTitle">Adicionar projeto</strong>
+    <button type="button" onclick="projectModal.close()">Fechar</button>
+  </div>
+  <form class="modal-body" onsubmit="saveProject(event)">
+    <input type="hidden" id="projectId">
+    <label>Nome
+      <input id="projectName" required placeholder="Ex.: Simulador IBS/CBS">
+    </label>
+    <label>Categoria
+      <input id="projectCategory" required placeholder="Ex.: IBS / CBS">
+    </label>
+    <label>Descrição
+      <textarea id="projectDescription" placeholder="Descrição curta do sistema"></textarea>
+    </label>
+    <label>Repositório GitHub
+      <input id="projectRepo" type="url" required placeholder="https://github.com/usuario/repositorio">
+    </label>
+    <label>Link para abrir o site
+      <input id="projectUrl" type="url" placeholder="https://usuario.github.io/repositorio/">
+    </label>
+    <p class="hint">Se o link do site ficar vazio, a central tenta montar automaticamente o endereço do GitHub Pages a partir do repositório.</p>
+    <div class="modal-actions">
+      <button type="button" class="secondary" onclick="projectModal.close()">Cancelar</button>
+      <button id="saveBtn" type="submit" class="primary"><span class="spinner"></span><span>Salvar no GitHub</span></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="tokenModal">
+  <div class="modal-head">
+    <strong>Conectar ao GitHub</strong>
+    <button type="button" onclick="tokenModal.close()">Fechar</button>
+  </div>
+  <form class="modal-body" onsubmit="saveToken(event)">
+    <p class="hint">Para a central conseguir gravar as alterações no GitHub, informe um <strong>Fine-grained Personal Access Token</strong> com acesso somente ao repositório <strong>Central-Contalger</strong> e permissão <strong>Contents: Read and write</strong>.</p>
+    <label>Token do GitHub
+      <input id="githubToken" type="password" required autocomplete="off" placeholder="github_pat_...">
+    </label>
+    <p class="hint">O token fica somente nesta sessão do navegador (<strong>sessionStorage</strong>). Ele não é salvo no repositório nem no projects.json.</p>
+    <div class="modal-actions">
+      <button type="button" class="secondary" onclick="tokenModal.close()">Cancelar</button>
+      <button type="submit" class="primary">Conectar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+const CONFIG = {
+  owner: "mauroruan2004-code",
+  repo: "Central-Contalger",
+  branch: "main",
+  file: "projects.json"
+};
+
+let projects = [];
+let editingId = null;
+
+function token(){ return sessionStorage.getItem("contalger_github_token") || ""; }
+
+function apiHeaders(withJson=false){
+  const h = {
+    "Accept":"application/vnd.github+json",
+    "X-GitHub-Api-Version":"2022-11-28"
+  };
+  if(token()) h["Authorization"] = "Bearer " + token();
+  if(withJson) h["Content-Type"] = "application/json";
+  return h;
+}
+
+function showNotice(message,type="info"){
+  const n=document.getElementById("notice");
+  n.className="notice show "+type;
+  n.textContent=message;
+  clearTimeout(showNotice.t);
+  showNotice.t=setTimeout(()=>n.className="notice",4500);
+}
+
+function escapeHtml(v=""){
+  return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+
+function utf8ToBase64(text){
+  const bytes=new TextEncoder().encode(text);
+  let binary="";
+  bytes.forEach(b=>binary+=String.fromCharCode(b));
+  return btoa(binary);
+}
+
+function derivePagesUrl(repoUrl){
+  try{
+    const u=new URL(repoUrl);
+    const parts=u.pathname.replace(/^\/|\/$/g,"").split("/");
+    if(u.hostname==="github.com" && parts.length>=2){
+      return `https://${parts[0]}.github.io/${parts[1]}/`;
+    }
+  }catch(e){}
+  return "";
+}
+
+async function loadProjects(showMessage=false){
+  try{
+    const raw=`https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}/${CONFIG.file}?t=${Date.now()}`;
+    const r=await fetch(raw,{cache:"no-store"});
+    if(!r.ok) throw new Error("Não foi possível carregar projects.json");
+    projects=await r.json();
+    localStorage.setItem("contalger_projects_cache",JSON.stringify(projects));
+    render();
+    if(showMessage) showNotice("Lista atualizada a partir do GitHub.","ok");
+  }catch(e){
+    const cached=localStorage.getItem("contalger_projects_cache");
+    if(cached){
+      projects=JSON.parse(cached);
+      render();
+      showNotice("GitHub indisponível agora. Exibindo a última lista salva no navegador.","info");
+    }else{
+      showNotice("Não foi possível carregar os projetos.","error");
+    }
+  }
+}
+
+function render(){
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const list=projects.filter(p=>[p.name,p.category,p.description,p.repo].join(" ").toLowerCase().includes(q));
+  document.getElementById("grid").innerHTML=list.map(p=>`
+    <article class="card">
+      <span class="badge">${escapeHtml(p.category)}</span>
+      <h3>${escapeHtml(p.name)}</h3>
+      <p>${escapeHtml(p.description||"Sem descrição.")}</p>
+      <div class="repo-label" title="${escapeHtml(p.repo||"")}">${escapeHtml((p.repo||"").replace("https://github.com/",""))}</div>
+      <div class="actions">
+        <a class="btn open" target="_blank" rel="noopener" href="${escapeHtml(p.url||derivePagesUrl(p.repo))}">Abrir site</a>
+        <button class="edit" onclick='openProjectModal(${JSON.stringify(p.id)})'>Editar</button>
+        <button class="delete" onclick='deleteProject(${JSON.stringify(p.id)})'>Excluir</button>
+      </div>
+    </article>
+  `).join("");
+  document.getElementById("empty").style.display=list.length?"none":"block";
+  document.getElementById("projectCount").textContent=projects.length;
+  document.getElementById("categoryCount").textContent=new Set(projects.map(p=>p.category)).size;
+  updateConnectionUI();
+}
+
+function openProjectModal(id=null){
+  editingId=id;
+  const p=id?projects.find(x=>x.id===id):null;
+  document.getElementById("projectModalTitle").textContent=p?"Editar projeto":"Adicionar projeto";
+  document.getElementById("projectId").value=p?.id||"";
+  document.getElementById("projectName").value=p?.name||"";
+  document.getElementById("projectCategory").value=p?.category||"";
+  document.getElementById("projectDescription").value=p?.description||"";
+  document.getElementById("projectRepo").value=p?.repo||"";
+  document.getElementById("projectUrl").value=p?.url||"";
+  projectModal.showModal();
+}
+
+function openTokenModal(){
+  document.getElementById("githubToken").value="";
+  tokenModal.showModal();
+}
+
+async function saveToken(e){
+  e.preventDefault();
+  const t=document.getElementById("githubToken").value.trim();
+  if(!t) return;
+  sessionStorage.setItem("contalger_github_token",t);
+  try{
+    const r=await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.file}?ref=${CONFIG.branch}`,{headers:apiHeaders()});
+    if(!r.ok) throw new Error("Token sem acesso ao repositório.");
+    tokenModal.close();
+    updateConnectionUI();
+    showNotice("GitHub conectado. As alterações agora podem ser gravadas no repositório.","ok");
+  }catch(err){
+    sessionStorage.removeItem("contalger_github_token");
+    updateConnectionUI();
+    showNotice("Não consegui validar o token. Confira a permissão Contents: Read and write.","error");
+  }
+}
+
+function updateConnectionUI(){
+  const b=document.getElementById("connectBtn");
+  if(token()){
+    b.textContent="GitHub conectado";
+    b.classList.add("connected");
+  }else{
+    b.textContent="Conectar GitHub";
+    b.classList.remove("connected");
+  }
+}
+
+async function persistToGitHub(nextProjects,message){
+  if(!token()){
+    openTokenModal();
+    throw new Error("Conecte o GitHub antes de salvar.");
+  }
+
+  const endpoint=`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.file}`;
+  const current=await fetch(`${endpoint}?ref=${CONFIG.branch}`,{headers:apiHeaders()});
+  if(!current.ok) throw new Error("Não foi possível ler o arquivo atual no GitHub.");
+  const info=await current.json();
+
+  const body={
+    message,
+    content:utf8ToBase64(JSON.stringify(nextProjects,null,2)+"\n"),
+    sha:info.sha,
+    branch:CONFIG.branch
+  };
+
+  const r=await fetch(endpoint,{
+    method:"PUT",
+    headers:apiHeaders(true),
+    body:JSON.stringify(body)
+  });
+
+  if(r.status===409){
+    await loadProjects();
+    throw new Error("O arquivo mudou no GitHub enquanto você editava. Atualizei a lista; tente novamente.");
+  }
+  if(!r.ok){
+    let detail="";
+    try{detail=(await r.json()).message||""}catch(e){}
+    throw new Error(detail||"O GitHub recusou a alteração.");
+  }
+
+  projects=nextProjects;
+  localStorage.setItem("contalger_projects_cache",JSON.stringify(projects));
+  render();
+}
+
+async function saveProject(e){
+  e.preventDefault();
+  const btn=document.getElementById("saveBtn");
+  btn.classList.add("saving");
+  btn.disabled=true;
+
+  const repo=document.getElementById("projectRepo").value.trim();
+  const url=document.getElementById("projectUrl").value.trim()||derivePagesUrl(repo);
+  const id=editingId||("p-"+Date.now());
+  const data={
+    id,
+    name:document.getElementById("projectName").value.trim(),
+    category:document.getElementById("projectCategory").value.trim(),
+    description:document.getElementById("projectDescription").value.trim(),
+    repo,
+    url
+  };
+
+  const next=[...projects];
+  const i=next.findIndex(x=>x.id===id);
+  if(i>=0) next[i]=data; else next.unshift(data);
+
+  try{
+    await persistToGitHub(next,i>=0?`Atualiza projeto: ${data.name}`:`Adiciona projeto: ${data.name}`);
+    projectModal.close();
+    showNotice("Alteração salva no GitHub com sucesso.","ok");
+  }catch(err){
+    showNotice(err.message,"error");
+  }finally{
+    btn.classList.remove("saving");
+    btn.disabled=false;
+  }
+}
+
+async function deleteProject(id){
+  const p=projects.find(x=>x.id===id);
+  if(!p||!confirm(`Excluir "${p.name}" da central e salvar essa alteração no GitHub?`)) return;
+  try{
+    await persistToGitHub(projects.filter(x=>x.id!==id),`Remove projeto: ${p.name}`);
+    showNotice("Projeto removido e alteração salva no GitHub.","ok");
+  }catch(err){
+    showNotice(err.message,"error");
+  }
+}
+
+loadProjects();
+</script>
+</body>
+</html>

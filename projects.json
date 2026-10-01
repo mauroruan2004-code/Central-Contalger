@@ -1,0 +1,42 @@
+[
+  {
+    "id": "tributacao-precificacao",
+    "name": "Tributação e Precificação – Contalger",
+    "category": "Contalger",
+    "description": "Aplicação de tributação e precificação da Contalger.",
+    "repo": "https://github.com/mauroruan2004-code/tributa-o-e-precifica-o---CONTALGER",
+    "url": "https://mauroruan2004-code.github.io/tributa-o-e-precifica-o---CONTALGER/"
+  },
+  {
+    "id": "simulador-ibs-cbs",
+    "name": "Simulador IBS/CBS",
+    "category": "IBS / CBS",
+    "description": "Simulador de créditos e impactos de IBS e CBS.",
+    "repo": "https://github.com/mauroruan2004-code/Simulador-IBS-CBS",
+    "url": "https://mauroruan2004-code.github.io/Simulador-IBS-CBS/"
+  },
+  {
+    "id": "complementador-e113",
+    "name": "Complementador E113",
+    "category": "SPED / Fiscal",
+    "description": "Ferramenta Contalger para complemento do registro E113.",
+    "repo": "https://github.com/mauroruan2004-code/GERDADOE113",
+    "url": "https://mauroruan2004-code.github.io/GERDADOE113/"
+  },
+  {
+    "id": "apuracao-icms-pi",
+    "name": "Apuração ICMS PI",
+    "category": "ICMS",
+    "description": "Aplicação de apuração de ICMS para operações no Piauí.",
+    "repo": "https://github.com/mauroruan2004-code/APURA-O-ICMS-PI",
+    "url": "https://mauroruan2004-code.github.io/APURA-O-ICMS-PI/"
+  },
+  {
+    "id": "gerador-relatorio-debitos",
+    "name": "Gerador de Relatório de Débitos",
+    "category": "Relatórios",
+    "description": "Gerador Contalger de relatório de débitos fiscais.",
+    "repo": "https://github.com/mauroruan2004-code/GERADOR-Relatorio-de-Debitos",
+    "url": "https://mauroruan2004-code.github.io/GERADOR-Relatorio-de-Debitos/"
+  }
+]
